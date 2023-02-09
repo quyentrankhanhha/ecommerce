@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
-import { rules } from 'src/utils/rules'
+import { getRules } from 'src/utils/rules'
 
 interface FormData {
   email: string
@@ -12,9 +12,11 @@ export default function Register() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    getValues
   } = useForm<FormData>()
 
+  const rules = getRules(getValues)
   const onSubmit = handleSubmit((data) => {
     console.log(data)
   })
@@ -31,7 +33,7 @@ export default function Register() {
                   type='email'
                   className='rounded-sm border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm'
                   placeholder='Email'
-                  {...(register('email'), rules.email)}
+                  {...register('email', rules.email)}
                 />
                 <div className='min-h-[1.25rem]text-sm mt-1 text-red-600'>{errors.email?.message}</div>
               </div>
@@ -40,18 +42,20 @@ export default function Register() {
                   type='password'
                   className='rounded-sm border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm'
                   placeholder='Password'
-                  {...(register('password'), rules.password)}
+                  autoComplete='on'
+                  {...register('password', rules.password)}
                 />
-                <div className='min-h-[1.25rem]text-sm mt-1 text-red-600'></div>
+                <div className='min-h-[1.25rem]text-sm mt-1 text-red-600'>{errors.password?.message}</div>
               </div>
               <div className='mt-2'>
                 <input
                   type='password'
                   className='rounded-sm border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm'
                   placeholder='Confirm Password'
-                  {...(register('confirm_password'), rules.confirm_password)}
+                  autoComplete='on'
+                  {...register('confirm_password', rules.confirm_password)}
                 />
-                <div className='min-h-[1.25rem]text-sm mt-1 text-red-600'></div>
+                <div className='min-h-[1.25rem]text-sm mt-1 text-red-600'>{errors.confirm_password?.message}</div>
               </div>
               <div className='mt-2'>
                 <button
