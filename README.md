@@ -1,9 +1,10 @@
-# Ecommerce Project 2022
+# Ecommerce Project 2022 Target
 
 ## Technologies
 - JavaScript/TypeScript
 - React
 - UI/ CSS Library: TailwindCSS + HeadlessUI
+- Validation with Yup
 - State Management: React Query and React Context
 - Form Management: React Hook Form
 - Router: React Router
