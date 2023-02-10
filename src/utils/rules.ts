@@ -1,6 +1,8 @@
 import { RegisterOptions, UseFormGetValues } from 'react-hook-form'
+import * as yup from 'yup'
 
 type Rules = { [key in 'email' | 'password' | 'confirm_password']?: RegisterOptions }
+
 export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   email: {
     required: {
@@ -38,7 +40,7 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   confirm_password: {
     required: {
       value: true,
-      message: 'Please re enter your password'
+      message: 'Please enter your password'
     },
     maxLength: {
       value: 160,
@@ -54,3 +56,27 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
         : undefined
   }
 })
+
+export const schema = yup
+  .object({
+    email: yup
+      .string()
+      .required('Please enter your email')
+      .email('Please enter a valid email')
+      .min(5, 'Minimum 5 characters')
+      .max(160, 'Maximum 160 characters'),
+    password: yup
+      .string()
+      .required('Please enter your password')
+      .min(5, 'Minimum 5 characters')
+      .max(160, 'Maximum 160 characters'),
+    confirm_password: yup
+      .string()
+      .required('Please enter your password')
+      .min(5, 'Minimum 5 characters')
+      .max(160, 'Maximum 160 characters')
+      .oneOf([yup.ref('password')], 'Please re enter your password')
+  })
+  .required()
+
+export type Schema = yup.InferType<typeof schema>
