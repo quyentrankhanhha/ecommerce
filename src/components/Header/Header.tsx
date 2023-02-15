@@ -1,41 +1,21 @@
-import { offset, shift } from '@floating-ui/dom'
-import { arrow, FloatingPortal, useFloating } from '@floating-ui/react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Popover from '../Popover'
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false)
-  const arrowRef = useRef<HTMLElement>(null)
-  const { x, y, strategy, refs, middlewareData } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    middleware: [
-      offset(6),
-      shift(),
-      arrow({
-        element: arrowRef
-      })
-    ]
-  })
-
-  const showPopover = () => {
-    setIsOpen(true)
-  }
-
-  const hidePopover = () => {
-    setIsOpen(false)
-  }
-
   return (
     <div className='pb-5 pt-2'>
       <div className='container'>
         <div className='flex justify-end'>
-          <div
+          <Popover
             className='flex cursor-pointer items-center py-1 hover:text-gray-300'
-            ref={refs.setReference}
-            onMouseEnter={showPopover}
-            onMouseLeave={hidePopover}
+            renderPopover={
+              <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
+                <div className='flex flex-col py-2 px-3'>
+                  <div className='hover:text-red py-2 px-3'>English</div>
+                  <div className='hover:text-red mt-2 py-2 px-3'>Tiếng Việt</div>
+                </div>
+              </div>
+            }
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -62,43 +42,23 @@ export default function Header() {
             >
               <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' />
             </svg>
-
-            <FloatingPortal>
-              <AnimatePresence>
-                {isOpen && (
-                  <motion.div
-                    ref={refs.setFloating}
-                    style={{
-                      position: strategy,
-                      top: y ?? 0,
-                      left: x ?? 0,
-                      width: 'max-content',
-                      transformOrigin: `${middlewareData.arrow?.x}px top`
-                    }}
-                    initial={{ opacity: 0, transform: 'scale(0)' }}
-                    animate={{ opacity: 1, transform: 'scale(1)' }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <span
-                      ref={arrowRef}
-                      className='absolute z-10 translate-y-[-95%] border-[11px] border-x-transparent border-t-transparent border-b-white'
-                      style={{
-                        left: middlewareData.arrow?.x,
-                        top: middlewareData.arrow?.y
-                      }}
-                    />
-                    <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
-                      <div className='flex flex-col py-2 px-3'>
-                        <div className='hover:text-red py-2 px-3'>English</div>
-                        <div className='hover:text-red mt-2 py-2 px-3'>Tiếng Việt</div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </FloatingPortal>
-          </div>
-          <div className='flex cursor-pointer items-center py-1 hover:text-gray-300'>
+          </Popover>
+          <Popover
+            className='flex cursor-pointer items-center py-1 hover:text-gray-300'
+            renderPopover={
+              <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
+                <Link to='/' className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-cyan-500'>
+                  My Profile
+                </Link>
+                <Link to='/' className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-cyan-500'>
+                  Order
+                </Link>
+                <button className='block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'>
+                  Log Out
+                </button>
+              </div>
+            }
+          >
             <div className='mr-2 h-5 w-5 flex-shrink-0'>
               <img
                 src='https://avatars.githubusercontent.com/u/55784860?v=4'
@@ -107,7 +67,7 @@ export default function Header() {
               />
             </div>
             <div>khanhha</div>
-          </div>
+          </Popover>
         </div>
         <div className='mt-4 grid grid-cols-12 items-end gap-4'>
           <Link to='/' className='col-span-2'>
