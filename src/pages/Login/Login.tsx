@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { login } from 'src/apis/auth.api'
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
+import path from 'src/constants/path'
 import { AppContext } from 'src/contexts/app.context'
 import { ErrorResponse } from 'src/types/ultils.type'
 import { Schema, schema } from 'src/utils/rules'
@@ -92,7 +93,7 @@ export default function Login() {
               </div>
               <div className='mt-8 flex items-center justify-center'>
                 <span className='text-slate-400'>Do not have an account? </span>
-                <Link to='/register' className='ml-1 text-red-400'>
+                <Link to={path.register} className='ml-1 text-red-400'>
                   Register here
                 </Link>
               </div>

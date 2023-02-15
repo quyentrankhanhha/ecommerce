@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { registerAccount } from 'src/apis/auth.api'
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
+import path from 'src/constants/path'
 import { AppContext } from 'src/contexts/app.context'
 import { ErrorResponse } from 'src/types/ultils.type'
 import { Schema, schema } from 'src/utils/rules'
@@ -102,7 +103,7 @@ export default function Register() {
               </div>
               <div className='mt-8 flex items-center justify-center'>
                 <span className='text-slate-400'>Already have an account? </span>
-                <Link to='/login' className='ml-1 text-red-400'>
+                <Link to={path.login} className='ml-1 text-red-400'>
                   Sign in here
                 </Link>
               </div>

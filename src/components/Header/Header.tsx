@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { logout } from 'src/apis/auth.api'
+import path from 'src/constants/path'
 import { AppContext } from 'src/contexts/app.context'
 import Popover from '../Popover'
 
@@ -65,7 +66,7 @@ export default function Header() {
               renderPopover={
                 <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
                   <Link
-                    to='/profile'
+                    to={path.profile}
                     className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-cyan-500'
                   >
                     My Profile
@@ -94,11 +95,11 @@ export default function Header() {
           )}
           {!isAuthenticated && (
             <div className='flex items-center'>
-              <Link to='/register' className='mx-3 capitalize hover:text-white/70'>
+              <Link to={path.register} className='mx-3 capitalize hover:text-white/70'>
                 Register
               </Link>
               <div className='h-4 border-r-[1px] border-r-white/40'></div>
-              <Link to='/login' className='mx-3 capitalize hover:text-white/70'>
+              <Link to={path.login} className='mx-3 capitalize hover:text-white/70'>
                 Login
               </Link>
             </div>
