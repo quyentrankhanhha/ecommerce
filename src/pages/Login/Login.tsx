@@ -4,6 +4,7 @@ import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { login } from 'src/apis/auth.api'
+import Button from 'src/components/Button'
 import Input from 'src/components/Input'
 import { AppContext } from 'src/contexts/app.context'
 import { ErrorResponse } from 'src/types/ultils.type'
@@ -80,12 +81,14 @@ export default function Login() {
                 errorMessage={errors.password?.message}
               />
               <div className='mt-2'>
-                <button
+                <Button
                   type='submit'
                   className='w-full bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600'
+                  isLoading={loginMutation.isLoading}
+                  disabled={loginMutation.isLoading}
                 >
                   Login
-                </button>
+                </Button>
               </div>
               <div className='mt-8 flex items-center justify-center'>
                 <span className='text-slate-400'>Do not have an account? </span>
