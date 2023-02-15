@@ -1,7 +1,23 @@
+import { useMutation } from '@tanstack/react-query'
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { logout } from 'src/apis/auth.api'
+import { AppContext } from 'src/contexts/app.context'
 import Popover from '../Popover'
 
 export default function Header() {
+  const { setIsAuthenticated, isAuthenticated } = useContext(AppContext)
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      setIsAuthenticated(false)
+    }
+  })
+
+  const handleLogout = () => {
+    logoutMutation.mutate()
+  }
+
   return (
     <div className='pb-5 pt-2'>
       <div className='container'>
@@ -43,31 +59,50 @@ export default function Header() {
               <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' />
             </svg>
           </Popover>
-          <Popover
-            className='flex cursor-pointer items-center py-1 hover:text-gray-300'
-            renderPopover={
-              <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
-                <Link to='/profile' className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-cyan-500'>
-                  My Profile
-                </Link>
-                <Link to='/' className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-cyan-500'>
-                  Order
-                </Link>
-                <button className='block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'>
-                  Log Out
-                </button>
+          {isAuthenticated && (
+            <Popover
+              className='flex cursor-pointer items-center py-1 hover:text-gray-300'
+              renderPopover={
+                <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
+                  <Link
+                    to='/profile'
+                    className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-cyan-500'
+                  >
+                    My Profile
+                  </Link>
+                  <Link to='/' className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-cyan-500'>
+                    Order
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className='block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'
+                  >
+                    Log Out
+                  </button>
+                </div>
+              }
+            >
+              <div className='mr-2 h-5 w-5 flex-shrink-0'>
+                <img
+                  src='https://avatars.githubusercontent.com/u/55784860?v=4'
+                  alt='avatar'
+                  className='h-full w-full rounded-full object-cover'
+                />
               </div>
-            }
-          >
-            <div className='mr-2 h-5 w-5 flex-shrink-0'>
-              <img
-                src='https://avatars.githubusercontent.com/u/55784860?v=4'
-                alt='avatar'
-                className='h-full w-full rounded-full object-cover'
-              />
+              <div>khanhha</div>
+            </Popover>
+          )}
+          {!isAuthenticated && (
+            <div className='flex items-center'>
+              <Link to='/register' className='mx-3 capitalize hover:text-white/70'>
+                Register
+              </Link>
+              <div className='h-4 border-r-[1px] border-r-white/40'></div>
+              <Link to='/login' className='mx-3 capitalize hover:text-white/70'>
+                Login
+              </Link>
             </div>
-            <div>khanhha</div>
-          </Popover>
+          )}
         </div>
         <div className='mt-4 grid grid-cols-12 items-end gap-4'>
           <Link to='/' className='col-span-2'>
@@ -113,7 +148,11 @@ export default function Header() {
                     <div className='mt-5'>
                       <div className='mt-4 flex'>
                         <div className='flex-shrink-0'>
-                          <img src='' alt='image' className='h-11 w-11 object-cover' />
+                          <img
+                            src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Academic_success.jpg/800px-Academic_success.jpg'
+                            alt='product'
+                            className='h-11 w-11 object-cover'
+                          />
                         </div>
                         <div className='ml-2 flex-grow overflow-hidden'>
                           <div className='truncate'>asdfasdf</div>
