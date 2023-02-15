@@ -7,11 +7,12 @@ import { AppContext } from 'src/contexts/app.context'
 import Popover from '../Popover'
 
 export default function Header() {
-  const { setIsAuthenticated, isAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, isAuthenticated, setProfile, profile } = useContext(AppContext)
   const logoutMutation = useMutation({
     mutationFn: logout,
     onSuccess: () => {
       setIsAuthenticated(false)
+      setProfile(null)
     }
   })
 
@@ -24,7 +25,7 @@ export default function Header() {
       <div className='container'>
         <div className='flex justify-end'>
           <Popover
-            className='flex cursor-pointer items-center py-1 hover:text-gray-300'
+            className='flex cursor-pointer items-center py-1 hover:text-white/70'
             renderPopover={
               <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
                 <div className='flex flex-col py-2 px-3'>
@@ -62,7 +63,7 @@ export default function Header() {
           </Popover>
           {isAuthenticated && (
             <Popover
-              className='flex cursor-pointer items-center py-1 hover:text-gray-300'
+              className='flex cursor-pointer items-center py-1 hover:text-white/70'
               renderPopover={
                 <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
                   <Link
@@ -90,7 +91,7 @@ export default function Header() {
                   className='h-full w-full rounded-full object-cover'
                 />
               </div>
-              <div>khanhha</div>
+              <div>{profile?.email}</div>
             </Popover>
           )}
           {!isAuthenticated && (
