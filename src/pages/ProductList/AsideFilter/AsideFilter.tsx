@@ -70,16 +70,16 @@ export default function AsideFilter() {
             <Input
               type='text'
               className='grow'
-              placeholder='From'
-              name='from'
+              placeholder='Min'
+              name='min'
               classNameInput='p-1 text-sm w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
             />
             <div className='mx-2 mt-1 shrink-0'>-</div>
             <Input
               type='text'
               className='grow'
-              placeholder='To'
-              name='to'
+              placeholder='Max'
+              name='max'
               classNameInput='p-1 text-sm w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
             />
           </div>
@@ -89,7 +89,7 @@ export default function AsideFilter() {
         </form>
       </div>
       <div className='my-4 h-[1px] bg-gray-300' />
-      <div className='text-sm'>Rating</div>
+      <div className='text-sm'>Customer Reviews</div>
       <ul className='my-3'>
         <li className='py-1 pl-2'>
           <Link to='' className='flex items-center text-sm'>
@@ -133,6 +133,7 @@ export default function AsideFilter() {
                   />
                 </svg>
               ))}
+            & Up
           </Link>
         </li>
       </ul>
