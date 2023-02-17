@@ -13,7 +13,10 @@ export default function SortProductList() {
           <button className='h-8 bg-white px-4 text-center text-sm capitalize text-black hover:bg-slate-100'>
             Best Seller
           </button>
-          <select className='h-8 bg-white px-4 text-center text-sm capitalize text-black hover:bg-slate-100'>
+          <select
+            className='h-8 bg-white px-4 text-center text-sm capitalize text-black outline-none hover:bg-slate-100'
+            value=''
+          >
             <option value='' disabled>
               Price
             </option>
@@ -21,13 +24,38 @@ export default function SortProductList() {
             <option value='price:desc'>Price: High To Low</option>
           </select>
         </div>
-      </div>
-      <div className='flex items-center'>
-        <div>
-          <span className='text-red-500'>1</span>
-          <span>2</span>
+        <div className='flex items-center'>
+          <div>
+            <span className='text-red-500'>1</span>
+            <span>2</span>
+          </div>
+          <div className='ml-2'>
+            <button className='h-8 cursor-not-allowed rounded-tl-sm rounded-bl-sm bg-white/60 px-3 hover:bg-slate-100'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='currentColor'
+                className='h-3 w-3'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
+              </svg>
+            </button>
+            <button className='h-8 cursor-not-allowed rounded-tl-sm rounded-bl-sm bg-white/60 px-3 hover:bg-slate-100'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='currentColor'
+                className='h-3 w-3'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
+              </svg>
+            </button>
+          </div>
         </div>
-        <div className='ml-2'>button.px-3.h-8.rounded-tl-sm.rounded-bl-sm.bg-white/60.hover:bg-slate-109</div>
       </div>
     </div>
   )
