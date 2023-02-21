@@ -12,7 +12,7 @@ export default function Product() {
           />
         </div>
         <div className='overflow-hidden p-2'>
-          <div className='min-h-[2rem] text-sm line-clamp-2'>
+          <div className='min-h-[2 rem] text-sm line-clamp-2'>
             SHULOOK hiking shoes, waterproof trekking shoes, non-slip high rise hiking boots, outdoor mountain shoes,
             ultralight trainers, camping, trekking, hiking, hiking boots
           </div>
