@@ -1,13 +1,19 @@
 import { Link } from 'react-router-dom'
+import { Product as ProductType } from 'src/types/product.type'
+import { formatCurrency, formatNumberToSocialStyle } from 'src/utils/utils'
 
-export default function Product() {
+interface Props {
+  product: ProductType
+}
+
+export default function Product({ product }: Props) {
   return (
     <Link to='/'>
       <div className='overflow-hidden rounded-sm bg-white shadow transition-transform duration-100 hover:translate-y-[-0.0625rem] hover:shadow-md'>
         <div className='relative w-full pt-[100%]'>
           <img
-            src='https://m.media-amazon.com/images/I/517MLCPOUcL._SY500__AC_SY400_.jpg'
-            alt='product'
+            src={product.data.image}
+            alt={product.data.name}
             className='absolute top-0 left-0 h-full w-full bg-white object-cover'
           />
         </div>
@@ -19,11 +25,11 @@ export default function Product() {
           <div className='mt-3 flex items-center'>
             <div className='max-w-[50%] truncate text-gray-500 line-through'>
               <span className='text-xs'>e</span>
-              <span>5.99</span>
+              <span>{formatCurrency(product.data.price_before_discount)}</span>
             </div>
             <div className='ml-1 truncate text-red-500'>
               <span className='text-xs'>e</span>
-              <span>1.99</span>
+              <span>{formatCurrency(product.data.price)}</span>
             </div>
           </div>
           <div className='mt-3 flex items-center justify-end'>
@@ -62,7 +68,7 @@ export default function Product() {
               </div>
             </div>
             <div className='ml text-sm'>
-              <span>1000</span>
+              <span>{formatNumberToSocialStyle(product.data.sold)}</span>
               <span>Sold</span>
             </div>
           </div>
