@@ -33,7 +33,6 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config
-        console.log(url)
         if (url === path.login || url === path.register) {
           const data = response.data as AuthResponse
           this.accessToken = data.data.access_token

@@ -12,8 +12,8 @@ export default function Product({ product }: Props) {
       <div className='overflow-hidden rounded-sm bg-white shadow transition-transform duration-100 hover:translate-y-[-0.0625rem] hover:shadow-md'>
         <div className='relative w-full pt-[100%]'>
           <img
-            src={product.data.image}
-            alt={product.data.name}
+            src={product.image}
+            alt={product.name}
             className='absolute top-0 left-0 h-full w-full bg-white object-cover'
           />
         </div>
@@ -25,11 +25,11 @@ export default function Product({ product }: Props) {
           <div className='mt-3 flex items-center'>
             <div className='max-w-[50%] truncate text-gray-500 line-through'>
               <span className='text-xs'>e</span>
-              <span>{formatCurrency(product.data.price_before_discount)}</span>
+              <span>{formatCurrency(product.price_before_discount)}</span>
             </div>
             <div className='ml-1 truncate text-red-500'>
               <span className='text-xs'>e</span>
-              <span>{formatCurrency(product.data.price)}</span>
+              <span>{formatCurrency(product.price)}</span>
             </div>
           </div>
           <div className='mt-3 flex items-center justify-end'>
@@ -68,7 +68,7 @@ export default function Product({ product }: Props) {
               </div>
             </div>
             <div className='ml text-sm'>
-              <span>{formatNumberToSocialStyle(product.data.sold)}</span>
+              <span>{formatNumberToSocialStyle(product.sold)}</span>
               <span>Sold</span>
             </div>
           </div>
