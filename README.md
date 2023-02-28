@@ -1,6 +1,7 @@
 # Ecommerce Project 2022 Target
 
 ## Technologies
+
 - JavaScript/TypeScript
 - React
 - UI/ CSS Library: TailwindCSS + HeadlessUI
@@ -13,8 +14,11 @@
 - Support SEO with React Helmet
 - Story book
 - Unit Test
+- Heroicons (https://heroicons.com/)
+- And lodash for easier life
 
 ## Functionalities
+
 - Register
 - Login
 - Logout
