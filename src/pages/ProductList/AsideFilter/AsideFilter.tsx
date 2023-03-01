@@ -83,7 +83,7 @@ export default function AsideFilter() {
               classNameInput='p-1 text-sm w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
             />
           </div>
-          <Button className='mt-2 flex w-full items-center justify-center bg-red-300 p-2 text-sm uppercase text-white hover:bg-red-500'>
+          <Button className='mt-2 flex w-full items-center justify-center bg-red-500 p-2 text-sm uppercase text-white hover:bg-red-500/70'>
             Apply
           </Button>
         </form>
@@ -138,7 +138,7 @@ export default function AsideFilter() {
         </li>
       </ul>
       <div className='my-4 h-[1px] bg-gray-300' />
-      <Button className='mt-2 flex w-full items-center justify-center bg-red-300 p-2 text-sm uppercase text-white hover:bg-red-500'>
+      <Button className='mt-2 flex w-full items-center justify-center bg-red-500 p-2 text-sm uppercase text-white hover:bg-red-500/70'>
         Delete All
       </Button>
     </div>
