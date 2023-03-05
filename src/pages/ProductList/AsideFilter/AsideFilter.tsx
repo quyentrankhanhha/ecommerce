@@ -1,12 +1,27 @@
-import { Link } from 'react-router-dom'
+import classNames from 'classnames'
+import { createSearchParams, Link } from 'react-router-dom'
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
 import path from 'src/constants/path'
+import { Category } from 'src/types/category.type'
+import { QueryConfig } from '../ProductList'
 
-export default function AsideFilter() {
+interface Props {
+  queryConfig: QueryConfig
+  categories: Category[]
+}
+
+export default function AsideFilter({ queryConfig, categories }: Props) {
+  const { category } = queryConfig
+
   return (
     <div className='py-4'>
-      <Link to={path.home} className='flex items-center font-bold'>
+      <Link
+        to={path.home}
+        className={classNames('flex items-center font-bold', {
+          'text-orange': !category
+        })}
+      >
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -25,26 +40,43 @@ export default function AsideFilter() {
       </Link>
       <div className='my-4 h-[1px] bg-gray-300' />
       <ul>
-        <li className='py-2 pl-2'>
-          <Link to={path.home} className='relative px-3 font-semibold'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='absolute top-1 left-[-10px] h-4 w-4'
-            >
-              <path strokeLinecap='round' strokeLinejoin='round' d='M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5' />
-            </svg>
-            Top
-          </Link>
-        </li>
-        <li>
-          <Link to={path.home} className='relative px-5 '>
-            Top
-          </Link>
-        </li>
+        {categories.map((categoryItem) => {
+          const isActive = category === categoryItem._id
+          return (
+            <li className='py-2 pl-2' key={categoryItem._id}>
+              <Link
+                to={{
+                  pathname: path.home,
+                  search: createSearchParams({
+                    ...queryConfig,
+                    category: categoryItem._id
+                  }).toString()
+                }}
+                className={classNames('relative px-3 font-semibold', {
+                  'text-orange font-semibold': isActive
+                })}
+              >
+                {isActive && (
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth={1.5}
+                    stroke='currentColor'
+                    className='absolute top-1 left-[-10px] h-4 w-4'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5'
+                    />
+                  </svg>
+                )}
+                {categoryItem.name}
+              </Link>
+            </li>
+          )
+        })}
       </ul>
       <Link to={path.home} className='mt-4 flex items-center font-bold uppercase'>
         <svg
