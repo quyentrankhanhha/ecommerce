@@ -18,7 +18,7 @@ export default function Popover({
   className,
   as: Element = 'div',
   initialOpen,
-  placement
+  placement = 'bottom-end'
 }: Props) {
   const [isOpen, setIsOpen] = useState(initialOpen || false)
   const arrowRef = useRef<HTMLElement>(null)
@@ -63,6 +63,7 @@ export default function Popover({
               }}
               initial={{ opacity: 0, transform: 'scale(0)' }}
               animate={{ opacity: 1, transform: 'scale(1)' }}
+              exit={{ opacity: 0, transform: 'scale(0)' }}
               transition={{ duration: 0.2 }}
             >
               <span
