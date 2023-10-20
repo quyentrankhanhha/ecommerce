@@ -12,8 +12,8 @@ import { ErrorResponse } from 'src/types/ultils.type'
 import { Schema, schema } from 'src/utils/rules'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 
-type FormData = Omit<Schema, 'confirm_password'>
-const logisnSchema = schema.omit(['confirm_password'])
+type FormData = Pick<Schema, 'email' | 'password'>
+const loginSchema = schema.pick(['email', 'password'])
 
 export default function Login() {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
@@ -24,7 +24,7 @@ export default function Login() {
     setError,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(logisnSchema)
+    resolver: yupResolver(loginSchema)
   })
 
   const loginMutation = useMutation({

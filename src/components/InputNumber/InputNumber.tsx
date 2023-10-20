@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, forwardRef } from 'react'
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string
@@ -6,14 +6,17 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   classNameError?: string
 }
 
-export default function InputNumber({
-  className,
-  errorMessage,
-  classNameInput = 'rounded-sm border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm',
-  classNameError = 'min-h-[1.25rem]text-sm mt-1 text-red-600',
-  onChange,
-  ...rest
-}: Props) {
+const InputNumber = forwardRef<HTMLInputElement, Props>(function InputNumberFunc(
+  {
+    className,
+    errorMessage,
+    classNameInput = 'rounded-sm border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm',
+    classNameError = 'min-h-[1.25rem]text-sm mt-1 text-red-600',
+    onChange,
+    ...rest
+  },
+  ref
+) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     if (/^\d+$/.test(value) || (value === '' && onChange)) {
@@ -22,8 +25,10 @@ export default function InputNumber({
   }
   return (
     <div className={className}>
-      <input className={classNameInput} onChange={handleChange} {...rest} />
+      <input className={classNameInput} onChange={handleChange} {...rest} ref={ref} />
       <div className={classNameError}>{errorMessage}</div>
     </div>
   )
-}
+})
+
+export default InputNumber

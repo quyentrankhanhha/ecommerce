@@ -57,26 +57,42 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   }
 })
 
-export const schema = yup
-  .object({
-    email: yup
-      .string()
-      .required('Please enter your email')
-      .email('Please enter a valid email')
-      .min(5, 'Minimum 5 characters')
-      .max(160, 'Maximum 160 characters'),
-    password: yup
-      .string()
-      .required('Please enter your password')
-      .min(5, 'Minimum 5 characters')
-      .max(160, 'Maximum 160 characters'),
-    confirm_password: yup
-      .string()
-      .required('Please enter your password')
-      .min(5, 'Minimum 5 characters')
-      .max(160, 'Maximum 160 characters')
-      .oneOf([yup.ref('password')], 'Please re enter your password')
+function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
+  const { price_min, price_max } = this.parent as { price_min: string; price_max: string }
+  if (price_min !== '' && price_max !== '') {
+    return Number(price_max) >= Number(price_min)
+  }
+  return price_min !== '' || price_max !== ''
+}
+
+export const schema = yup.object({
+  email: yup
+    .string()
+    .required('Please enter your email')
+    .email('Please enter a valid email')
+    .min(5, 'Minimum 5 characters')
+    .max(160, 'Maximum 160 characters'),
+  password: yup
+    .string()
+    .required('Please enter your password')
+    .min(5, 'Minimum 5 characters')
+    .max(160, 'Maximum 160 characters'),
+  confirm_password: yup
+    .string()
+    .required('Please enter your password')
+    .min(5, 'Minimum 5 characters')
+    .max(160, 'Maximum 160 characters')
+    .oneOf([yup.ref('password')], 'Please re enter your password'),
+  price_min: yup.string().test({
+    name: 'price-not-allowed',
+    message: 'Unvalid price is not allowed',
+    test: testPriceMinMax
+  }),
+  price_max: yup.string().test({
+    name: 'price-not-allowed',
+    message: 'Unvalid price is not allowed',
+    test: testPriceMinMax
   })
-  .required()
+})
 
 export type Schema = yup.InferType<typeof schema>
