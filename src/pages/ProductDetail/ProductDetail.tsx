@@ -40,7 +40,7 @@ export default function ProductDetail() {
 
   const prev = () => {
     if (currentIndexImage[0] > 0) {
-      setCurrentIndexImage((prev) => [prev[0] - 1, prev[1] + 1])
+      setCurrentIndexImage((prev) => [prev[0] - 1, prev[1] - 1])
     }
   }
 
