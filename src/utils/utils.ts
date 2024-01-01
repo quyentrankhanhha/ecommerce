@@ -22,3 +22,6 @@ export function formatNumberToSocialStyle(value: number) {
     .format(value)
     .toLowerCase()
 }
+
+export const discountPercent = (original: number, saleOff: number) =>
+  Math.round(((original - saleOff) / original) * 100) + '%'
