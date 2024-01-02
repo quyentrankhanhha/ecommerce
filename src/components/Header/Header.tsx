@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
 import authApi from 'src/apis/auth.api'
 import path from 'src/constants/path'
@@ -10,10 +10,14 @@ import { Schema, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import { omit } from 'lodash'
+import { purchaseStatus } from 'src/constants/purchase'
+import purchaseApi from 'src/apis/purchase'
+import { formatCurrency } from 'src/utils/utils'
 
 type FormData = Pick<Schema, 'name'>
 
 const nameSchema = schema.pick['name']
+const MAX_PURCHASES = 5
 
 export default function Header() {
   const queryConfig: QueryConfig = useQueryConfig()
@@ -33,6 +37,13 @@ export default function Header() {
       setProfile(null)
     }
   })
+  // when navigating to other pages, Header will not unmount and will re render again so that queries are not inactive
+  const { data: purchaseInCartData } = useQuery({
+    queryKey: ['purchases', { status: purchaseStatus.inCart }],
+    queryFn: () => purchaseApi.getPurchases({ status: purchaseStatus.inCart })
+  })
+
+  const purchaseInCart = purchaseInCartData?.data.data
 
   const handleLogout = () => {
     logoutMutation.mutate()
@@ -182,36 +193,50 @@ export default function Header() {
               placement='bottom-end'
               renderPopover={
                 <div className='relative max-w-[400px] rounded-sm border border-gray-200 bg-white text-sm shadow-md'>
-                  <div className='p-2'>
-                    <div className='capitalize text-gray-400'>new product</div>
-                    <div className='mt-5'>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Academic_success.jpg/800px-Academic_success.jpg'
-                            alt='product'
-                            className='h-11 w-11 object-cover'
-                          />
+                  {purchaseInCart ? (
+                    <div className='p-2'>
+                      <div className='capitalize text-gray-400'>Shopping Cart</div>
+                      <div className='mt-5'>
+                        {purchaseInCart.slice(0, MAX_PURCHASES).map((purchase) => (
+                          <div className='mt-2 flex p-2 hover:bg-gray-100' key={purchase._id}>
+                            <div className='flex-shrink-0'>
+                              <img
+                                src={purchase.product.image}
+                                alt={purchase.product.name}
+                                className='h-11 w-11 object-cover'
+                              />
+                            </div>
+                            <div className='ml-2 flex-grow overflow-hidden'>
+                              <div className='truncate'>{purchase.product.name} </div>
+                            </div>
+                            <div className='ml-2 flex-shrink-0 text-orange-700'>
+                              <span className=''>{formatCurrency(purchase.product.price)} </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className='mt-6 flex items-center justify-between'>
+                        <div className='text-xs text-gray-500'>
+                          {purchaseInCart.length > MAX_PURCHASES
+                            ? purchaseInCart.length - MAX_PURCHASES + ' more product(s) in Cart'
+                            : ''}
                         </div>
-                        <div className='ml-2 flex-grow overflow-hidden'>
-                          <div className='truncate'>asdfasdf</div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className=''>123</span>
-                        </div>
+                        <button className='rounded-sm bg-orange-700 px-4 py-2 capitalize text-white hover:bg-opacity-80'>
+                          View Cart
+                        </button>
                       </div>
                     </div>
-                    <div className='mt-6 flex items-center justify-between'>
-                      <div className='text-xs capitalize text-gray-500'>Add into cart</div>
-                      <button className='bg-red rounded-sm px-4 py-2 capitalize text-white hover:bg-opacity-80'>
-                        Cart
-                      </button>
+                  ) : (
+                    <div className='h-[300px] w-[400px] p-2'>
+                      <div className='mt-3'>
+                        <p className='capitalize'>Your Cart is empty</p>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               }
             >
-              <Link to='/' className=''>
+              <Link to='/' className='relative'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -226,6 +251,9 @@ export default function Header() {
                     d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
                   />
                 </svg>
+                <span className='absolute top-[-10px] left-[20px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange-700 '>
+                  {purchaseInCart?.length}
+                </span>
               </Link>
             </Popover>
           </div>

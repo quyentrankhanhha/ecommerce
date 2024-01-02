@@ -5,11 +5,11 @@ import http from 'src/utils/http'
 const URL = 'purchases'
 
 const purchaseApi = {
-  addToCard(body: { productId: string; buy_count: number }) {
+  addToCard(body: { product_id: string; buy_count: number }) {
     return http.post<SuccessResponse<Purchase>>(`${URL}/add-to-cart`, body)
   },
   getPurchases(params: { status: PurchaseListStatus }) {
-    return http.get<SuccessResponse<Purchase[]>>(`${URL}/add-to-cart`, {
+    return http.get<SuccessResponse<Purchase[]>>(`${URL}`, {
       params
     })
   }
