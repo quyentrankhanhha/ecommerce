@@ -223,9 +223,12 @@ export default function Header() {
                             ? purchaseInCart.length - MAX_PURCHASES + ' more product(s) in Cart'
                             : ''}
                         </div>
-                        <button className='rounded-sm bg-orange-700 px-4 py-2 capitalize text-white hover:bg-opacity-80'>
+                        <Link
+                          to={path.cart}
+                          className='rounded-sm bg-orange-700 px-4 py-2 capitalize text-white hover:bg-opacity-80'
+                        >
                           View Cart
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   ) : (
