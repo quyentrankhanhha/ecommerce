@@ -4,32 +4,19 @@ import authApi from 'src/apis/auth.api'
 import path from 'src/constants/path'
 import { AppContext } from 'src/contexts/app.context'
 import Popover from '../Popover'
-import useQueryConfig, { QueryConfig } from 'src/hooks/useQueryConfig'
-import { useForm } from 'react-hook-form'
-import { Schema, schema } from 'src/utils/rules'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { createSearchParams, Link, useNavigate } from 'react-router-dom'
-import { omit } from 'lodash'
+import { Link } from 'react-router-dom'
 import { purchaseStatus } from 'src/constants/purchase'
 import purchaseApi from 'src/apis/purchase'
 import { formatCurrency } from 'src/utils/utils'
+import useSearchProducts from 'src/hooks/useSearchProducts'
 
-type FormData = Pick<Schema, 'name'>
-
-const nameSchema = schema.pick['name']
 const MAX_PURCHASES = 5
 
 export default function Header() {
-  const queryConfig: QueryConfig = useQueryConfig()
-  const navigate = useNavigate()
-  const queryClient = useQueryClient()
-  const { register, handleSubmit } = useForm<FormData>({
-    defaultValues: {
-      name: ''
-    },
-    resolver: yupResolver(nameSchema)
-  })
   const { setIsAuthenticated, isAuthenticated, setProfile, profile } = useContext(AppContext)
+  const { register, onSubmitSearch } = useSearchProducts()
+  const queryClient = useQueryClient()
+
   const logoutMutation = useMutation({
     mutationFn: authApi.logout,
     onSuccess: () => {
@@ -50,25 +37,6 @@ export default function Header() {
   const handleLogout = () => {
     logoutMutation.mutate()
   }
-
-  const onSubmitSearch = handleSubmit((data) => {
-    const config = queryConfig.order
-      ? omit(
-          {
-            ...queryConfig,
-            name: data.name
-          },
-          ['order', 'sort_by']
-        )
-      : {
-          ...queryConfig,
-          name: data.name
-        }
-    navigate({
-      pathname: path.home,
-      search: createSearchParams(config).toString()
-    })
-  })
 
   return (
     <div className='pb-5 pt-2'>
@@ -164,7 +132,7 @@ export default function Header() {
               className='h-8 lg:h-11'
             />
           </Link>
-          <form className='col-span-9 bg-slate-400' onSubmit={onSubmitSearch}>
+          <form className='col-span-9 border border-gray-400 bg-transparent' onSubmit={onSubmitSearch}>
             <div className='flex rounded-sm p-1'>
               <input
                 type='text'
