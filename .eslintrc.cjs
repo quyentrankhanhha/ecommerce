@@ -2,6 +2,9 @@
 const path = require('path')
 
 module.exports = {
+  env: {
+    node: true
+  },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
@@ -13,7 +16,7 @@ module.exports = {
     'eslint-config-prettier',
     'prettier'
   ],
-  plugins: ['prettier'],
+  plugins: ['react', 'prettier'],
   settings: {
     react: {
       version: 'detect'
@@ -24,9 +27,6 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx']
       }
     }
-  },
-  env: {
-    node: true
   },
   rules: {
     'react/react-in-jsx-scope': 'off',
