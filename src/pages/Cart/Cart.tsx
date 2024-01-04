@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import purchaseApi from 'src/apis/purchase'
@@ -9,6 +9,7 @@ import { purchaseStatus } from 'src/constants/purchase'
 import { Purchase } from 'src/types/purchase.type'
 import { formatCurrency, generateNameId } from 'src/utils/utils'
 import { produce } from 'immer'
+import { keyBy } from 'lodash'
 interface ExtendedPurchase extends Purchase {
   disabled: boolean
   checked: boolean
@@ -16,29 +17,34 @@ interface ExtendedPurchase extends Purchase {
 
 export default function Cart() {
   const [extendedPurchase, setExtendedPurchase] = useState<ExtendedPurchase[]>([])
-  const { data: purchaseInCartData } = useQuery({
+  const { data: purchaseInCartData, refetch } = useQuery({
     queryKey: ['purchase', { status: purchaseStatus.inCart }],
     queryFn: () => purchaseApi.getPurchases({ status: purchaseStatus.inCart })
   })
-
   const purchaseInCart = purchaseInCartData?.data.data
-
+  const updatePurchaseMutation = useMutation({
+    mutationFn: purchaseApi.updatePurchase,
+    onSuccess: () => refetch()
+  })
   const isAllChecked = extendedPurchase.every((purchase) => purchase.checked)
 
   useEffect(() => {
-    setExtendedPurchase(
-      purchaseInCart?.map((purchase) => ({
-        ...purchase,
-        disabled: false,
-        checked: false
-      })) || []
-    )
+    setExtendedPurchase((prev) => {
+      const extendPurchaseObject = keyBy(prev, '_id')
+      return (
+        purchaseInCart?.map((purchase) => ({
+          ...purchase,
+          disabled: false,
+          checked: Boolean(extendPurchaseObject[purchase.product._id]?.checked)
+        })) || []
+      )
+    })
   }, [purchaseInCart])
 
-  const handleCheck = (productIndex: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheck = (purchaseIndex: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setExtendedPurchase(
       produce((draft) => {
-        draft[productIndex].checked = event.target.checked
+        draft[purchaseIndex].checked = event.target.checked
       })
     )
   }
@@ -50,6 +56,26 @@ export default function Cart() {
         checked: !isAllChecked
       }))
     )
+  }
+
+  const handleTypeQuantity = (purchaseIndex: number) => (value: number) => {
+    setExtendedPurchase(
+      produce((draft) => {
+        draft[purchaseIndex].buy_count = value
+      })
+    )
+  }
+
+  const handleQuantity = (purchaseIndex: number, value: number, enable: boolean) => {
+    if (enable) {
+      const purchase = extendedPurchase[purchaseIndex]
+      setExtendedPurchase(
+        produce((draft) => {
+          draft[purchaseIndex].disabled = true
+        })
+      )
+      updatePurchaseMutation.mutate({ product_id: purchase.product._id, buy_count: value })
+    }
   }
 
   return (
@@ -65,7 +91,7 @@ export default function Cart() {
                       type='checkbox'
                       className='h-5 w-5 accent-orange-700'
                       checked={isAllChecked}
-                      onClick={handleCheckAll}
+                      onChange={handleCheckAll}
                     />
                   </div>
                   <div className='flex-grow text-black'>Product</div>
@@ -99,14 +125,20 @@ export default function Cart() {
                       <div className='flex-grow'>
                         <div className='flex'>
                           <Link
-                            to={`${path.home}${generateNameId({ name: purchase.product.name, id: purchase._id })}`}
+                            to={`${path.home}${generateNameId({
+                              name: purchase.product.name,
+                              id: purchase.product._id
+                            })}`}
                             className='h-20 w-20 flex-shrink-0'
                           >
                             <img alt={purchase.product.name} src={purchase.product.image} />
                           </Link>
                           <div className='flex-grow px-2 pt-1 pb-2'>
                             <Link
-                              to={`${path.home}${generateNameId({ name: purchase.product.name, id: purchase._id })}`}
+                              to={`${path.home}${generateNameId({
+                                name: purchase.product.name,
+                                id: purchase.product._id
+                              })}`}
                               className='line-clamp-2'
                             >
                               {purchase.product.name}
@@ -131,6 +163,19 @@ export default function Cart() {
                           max={purchase.product.quantity}
                           value={purchase.buy_count}
                           classNameWrapper='flex items-center'
+                          onIncrease={(value) => handleQuantity(index, value, value <= purchase.product.quantity)}
+                          onDecrease={(value) => handleQuantity(index, value, value >= 1)}
+                          onType={handleTypeQuantity(index)}
+                          onFocusOut={(value) =>
+                            handleQuantity(
+                              index,
+                              value,
+                              value >= 1 &&
+                                value <= purchase.product.quantity &&
+                                value != (purchaseInCart as Purchase[])[index].buy_count
+                            )
+                          }
+                          disabled={purchase.disabled}
                         />
                       </div>
                       <div className='col-span-1'>
@@ -155,7 +200,7 @@ export default function Cart() {
                 type='checkbox'
                 className='h-5 w-5 accent-orange-700'
                 checked={isAllChecked}
-                onClick={handleCheckAll}
+                onChange={handleCheckAll}
               />
             </div>
             <button className='bb-none mx-3 border-none' onClick={handleCheckAll}>
