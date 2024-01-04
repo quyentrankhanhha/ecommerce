@@ -1,4 +1,4 @@
-# Ecommerce Project 2022 Target
+# Learning Ecommerce Project
 
 ## Technologies
 
@@ -15,6 +15,7 @@
 - Story book
 - Unit Test
 - Heroicons (https://heroicons.com/)
+- immer to work with immutable state
 - And lodash for easier life
 
 ## Functionalities
