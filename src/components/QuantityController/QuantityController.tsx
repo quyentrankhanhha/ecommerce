@@ -7,7 +7,7 @@ interface Props extends InputNumberProps {
   onDecrease?: (value: number) => void
   onType?: (value: number) => void
   classNameWrapper?: string
-  onFocusOut: (value: number) => void
+  onFocusOut?: (value: number) => void
 }
 
 export default function QuantityController({
