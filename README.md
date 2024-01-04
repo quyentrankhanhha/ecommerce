@@ -16,6 +16,7 @@
 - Unit Test
 - Heroicons (https://heroicons.com/)
 - immer to work with immutable state
+- framer motion
 - CI/CD pipelines with GitHub Actions
 - And lodash for easier life
 

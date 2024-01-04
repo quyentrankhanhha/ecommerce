@@ -163,7 +163,7 @@ export default function Header() {
               placement='bottom-end'
               renderPopover={
                 <div className='relative max-w-[400px] rounded-sm border border-gray-200 bg-white text-sm shadow-md'>
-                  {purchaseInCart ? (
+                  {purchaseInCart && purchaseInCart.length > 0 ? (
                     <div className='p-2'>
                       <div className='capitalize text-gray-400'>Shopping Cart</div>
                       <div className='mt-5'>
@@ -207,7 +207,7 @@ export default function Header() {
                 </div>
               }
             >
-              <Link to='/' className='relative'>
+              <Link to={path.cart} className='relative'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
