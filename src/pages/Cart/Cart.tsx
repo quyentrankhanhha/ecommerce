@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import React, { useContext, useEffect, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import purchaseApi from 'src/apis/purchase'
+import purchaseApi from 'src/apis/purchase.api'
 import Button from 'src/components/Button'
 import QuantityController from 'src/components/QuantityController'
 import path from 'src/constants/path'

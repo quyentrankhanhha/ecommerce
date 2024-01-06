@@ -6,7 +6,7 @@ import { AppContext } from 'src/contexts/app.context'
 import Popover from '../Popover'
 import { Link } from 'react-router-dom'
 import { purchaseStatus } from 'src/constants/purchase'
-import purchaseApi from 'src/apis/purchase'
+import purchaseApi from 'src/apis/purchase.api'
 import { formatCurrency } from 'src/utils/utils'
 import useSearchProducts from 'src/hooks/useSearchProducts'
 
