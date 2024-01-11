@@ -1,41 +1,44 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { useContext, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import userApi from 'src/apis/user.api'
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
 import InputNumber from 'src/components/InputNumber'
 import { UserSchema, userSchema } from 'src/utils/rules'
+import DateSelect from '../../components/DateSelect'
+import { toast } from 'react-toastify'
+import { AppContext } from 'src/contexts/app.context'
 
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
 
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
 
 export default function Profile() {
+  const { setProfile } = useContext(AppContext)
   const {
     register,
     control,
     formState: { errors },
     handleSubmit,
-    setValue,
-    watch,
-    setError
+    setValue
   } = useForm<FormData>({
     defaultValues: {
       name: '',
       phone: '',
       address: '',
       avatar: '',
-      date_of_birth: new Date(1990, 0, 1)
+      date_of_birth: new Date(1900, 0, 1)
     },
     resolver: yupResolver(profileSchema)
   })
-  const { data: profileData } = useQuery({
+  const { data: profileData, refetch } = useQuery({
     queryKey: ['profile'],
     queryFn: userApi.getProfile
   })
   const profile = profileData?.data.data
+  const updateProfileMutation = useMutation(userApi.updateProfile)
 
   useEffect(() => {
     if (profile) {
@@ -43,15 +46,22 @@ export default function Profile() {
       setValue('phone', profile.phone)
       setValue('address', profile.address)
       setValue('avatar', profile.avatar)
-      setValue('date_of_birth', profile.date_of_birth ? new Date(profile.date_of_birth) : new Date(1990, 0, 1))
+      setValue('date_of_birth', profile.date_of_birth ? new Date(profile.date_of_birth) : new Date(1900, 0, 1))
     }
   }, [profile, setValue])
+
+  const onSubmit = handleSubmit(async (data) => {
+    const res = await updateProfileMutation.mutateAsync({ ...data, date_of_birth: data.date_of_birth?.toISOString() })
+    setProfile(res.data.data)
+    refetch()
+    toast.success(res.data.message)
+  })
   return (
     <div className='rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
       <div className='border-b border-b-gray-200 py-6'>
         <h1 className='text-lg font-medium capitalize text-gray-900'>My Profile</h1>
       </div>
-      <form className='mt-8 flex flex-col-reverse md:flex-row md:items-start'>
+      <form className='mt-8 flex flex-col-reverse md:flex-row md:items-start' onSubmit={onSubmit}>
         <div className='mt-6 flex-grow md:mt-0 md:pr-12'>
           <div className='flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
@@ -101,22 +111,13 @@ export default function Profile() {
               />
             </div>
           </div>
-          <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>DOB</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <div className='flex justify-between'>
-                <select className='h-10 w-[32%] rounded-sm border border-black/10 px-3'>
-                  <option disabled>Day</option>
-                </select>
-                <select className='h-10 w-[32%] rounded-sm border border-black/10 px-3'>
-                  <option disabled>Month</option>
-                </select>
-                <select className='h-10 w-[32%] rounded-sm border border-black/10 px-3'>
-                  <option disabled>Year</option>
-                </select>
-              </div>
-            </div>
-          </div>
+          <Controller
+            control={control}
+            name='date_of_birth'
+            render={({ field }) => (
+              <DateSelect errorMessage={errors.date_of_birth?.message} value={field.value} onChange={field.onChange} />
+            )}
+          />
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'></div>
             <div className='sm:w-[80%] sm:pl-5'>

@@ -43,12 +43,12 @@ export default function Header() {
       <div className='container'>
         <div className='flex justify-end'>
           <Popover
-            className='flex cursor-pointer items-center py-1 hover:text-white/70'
+            className='flex cursor-pointer items-center py-1 hover:text-orange-700/70'
             renderPopover={
               <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
                 <div className='flex flex-col py-2 px-3'>
-                  <div className='hover:text-red py-2 px-3'>English</div>
-                  <div className='hover:text-red mt-2 py-2 px-3'>Tiếng Việt</div>
+                  <div className='py-2 px-3 hover:text-orange-700/70'>English</div>
+                  <div className='mt-2 py-2 px-3 hover:text-orange-700/70'>Tiếng Việt</div>
                 </div>
               </div>
             }
@@ -81,21 +81,21 @@ export default function Header() {
           </Popover>
           {isAuthenticated && (
             <Popover
-              className='flex cursor-pointer items-center py-1 hover:text-white/70'
+              className='flex cursor-pointer items-center py-1 hover:text-orange-700/70'
               renderPopover={
                 <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
                   <Link
                     to={path.profile}
-                    className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-cyan-500'
+                    className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-orange-700/70'
                   >
                     My Profile
                   </Link>
-                  <Link to='/' className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-cyan-500'>
+                  <Link to='/' className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-orange-700/70'>
                     Order
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className='block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'
+                    className='block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-orange-700/70'
                   >
                     Log Out
                   </button>
@@ -104,7 +104,7 @@ export default function Header() {
             >
               <div className='mr-2 h-5 w-5 flex-shrink-0'>
                 <img
-                  src='https://avatars.githubusercontent.com/u/55784860?v=4'
+                  src={profile?.avatar || 'https://avatars.githubusercontent.com/u/55784860?v=4'}
                   alt='avatar'
                   className='h-full w-full rounded-full object-cover'
                 />
