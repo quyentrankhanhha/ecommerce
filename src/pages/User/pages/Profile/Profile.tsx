@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm, useFormContext } from 'react-hook-form'
 import userApi from 'src/apis/user.api'
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
@@ -14,6 +14,47 @@ import { getAvatarUrl, isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/ultils.type'
 import InputFile from 'src/components/InputFile'
 
+function Info() {
+  const {
+    register,
+    control,
+    formState: { errors }
+  } = useFormContext<FormData>()
+  return (
+    <>
+      <div className='mt-6 flex flex-col flex-wrap sm:flex-row'>
+        <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Name</div>
+        <div className='sm:w-[80%] sm:pl-5'>
+          <Input
+            classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
+            register={register}
+            name='name'
+            placeholder='Name'
+            errorMessage={errors.name?.message}
+          />
+        </div>
+      </div>
+      <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
+        <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Phone number</div>
+        <div className='sm:w-[80%] sm:pl-5'>
+          <Controller
+            control={control}
+            name='phone'
+            render={({ field }) => (
+              <InputNumber
+                classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
+                placeholder='Phone number'
+                errorMessage={errors.phone?.message}
+                {...field}
+                onChange={field.onChange}
+              />
+            )}
+          />
+        </div>
+      </div>
+    </>
+  )
+}
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
 type FormDataError = Omit<FormData, 'date_of_birth'> & {
   date_of_birth?: string
@@ -27,15 +68,7 @@ export default function Profile() {
   const previewImage = useMemo(() => {
     return file ? URL.createObjectURL(file) : ''
   }, [file])
-  const {
-    register,
-    control,
-    formState: { errors },
-    handleSubmit,
-    setValue,
-    setError,
-    watch
-  } = useForm<FormData>({
+  const methods = useForm<FormData>({
     defaultValues: {
       name: '',
       phone: '',
@@ -45,6 +78,15 @@ export default function Profile() {
     },
     resolver: yupResolver(profileSchema)
   })
+  const {
+    register,
+    control,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    setError,
+    watch
+  } = methods
   const avatar = watch('avatar')
   const { data: profileData, refetch } = useQuery({
     queryKey: ['profile'],
@@ -106,91 +148,68 @@ export default function Profile() {
       <div className='border-b border-b-gray-200 py-6'>
         <h1 className='text-lg font-medium capitalize text-gray-900'>My Profile</h1>
       </div>
-      <form className='mt-8 flex flex-col-reverse md:flex-row md:items-start' onSubmit={onSubmit}>
-        <div className='mt-6 flex-grow md:mt-0 md:pr-12'>
-          <div className='flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <div className='pt-3 text-gray-700'>{profile?.email}</div>
+      <FormProvider {...methods}>
+        <form className='mt-8 flex flex-col-reverse md:flex-row md:items-start' onSubmit={onSubmit}>
+          <div className='mt-6 flex-grow md:mt-0 md:pr-12'>
+            <div className='flex flex-col flex-wrap sm:flex-row'>
+              <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
+              <div className='sm:w-[80%] sm:pl-5'>
+                <div className='pt-3 text-gray-700'>{profile?.email}</div>
+              </div>
+            </div>
+            <Info />
+            <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
+              <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Address</div>
+              <div className='sm:w-[80%] sm:pl-5'>
+                <Input
+                  classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
+                  register={register}
+                  name='address'
+                  placeholder='Address'
+                  errorMessage={errors.address?.message}
+                />
+              </div>
+            </div>
+            <Controller
+              control={control}
+              name='date_of_birth'
+              render={({ field }) => (
+                <DateSelect
+                  errorMessage={errors.date_of_birth?.message}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+            <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
+              <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'></div>
+              <div className='sm:w-[80%] sm:pl-5'>
+                <Button
+                  className='flex h-9 items-center bg-orange-700 px-5 text-center text-sm text-white hover:bg-orange-700/80'
+                  type='submit'
+                >
+                  Save
+                </Button>
+              </div>
             </div>
           </div>
-          <div className='mt-6 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Name</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <Input
-                classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
-                register={register}
-                name='name'
-                placeholder='Name'
-                errorMessage={errors.name?.message}
-              />
+          <div className='flex justify-center md:w-72 md:border-l md:border-l-gray-200'>
+            <div className='flex flex-col items-center'>
+              <div className='my-5 h-24 w-24'>
+                <img
+                  src={previewImage || getAvatarUrl(avatar)}
+                  alt='avatar image'
+                  className='h-full w-full rounded-full object-cover'
+                />
+              </div>
+              <InputFile onChange={handleChangeFile} />
+              <div className='mt-3 text-gray-400'>
+                <div>Only accept .JPEG, .PNG</div>
+              </div>
             </div>
           </div>
-          <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Phone number</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <Controller
-                control={control}
-                name='phone'
-                render={({ field }) => (
-                  <InputNumber
-                    classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
-                    placeholder='Phone number'
-                    errorMessage={errors.phone?.message}
-                    {...field}
-                    onChange={field.onChange}
-                  />
-                )}
-              />
-            </div>
-          </div>
-          <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Address</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <Input
-                classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
-                register={register}
-                name='address'
-                placeholder='Address'
-                errorMessage={errors.address?.message}
-              />
-            </div>
-          </div>
-          <Controller
-            control={control}
-            name='date_of_birth'
-            render={({ field }) => (
-              <DateSelect errorMessage={errors.date_of_birth?.message} value={field.value} onChange={field.onChange} />
-            )}
-          />
-          <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'></div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <Button
-                className='flex h-9 items-center bg-orange-700 px-5 text-center text-sm text-white hover:bg-orange-700/80'
-                type='submit'
-              >
-                Save
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className='flex justify-center md:w-72 md:border-l md:border-l-gray-200'>
-          <div className='flex flex-col items-center'>
-            <div className='my-5 h-24 w-24'>
-              <img
-                src={previewImage || getAvatarUrl(avatar)}
-                alt='avatar image'
-                className='h-full w-full rounded-full object-cover'
-              />
-            </div>
-            <InputFile onChange={handleChangeFile} />
-            <div className='mt-3 text-gray-400'>
-              <div>Only accept .JPEG, .PNG</div>
-            </div>
-          </div>
-        </div>
-      </form>
+        </form>
+      </FormProvider>
     </div>
   )
 }
