@@ -66,6 +66,15 @@ function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
   return price_min !== '' || price_max !== ''
 }
 
+export const handleConfirmPasswordYup = (refString: string) => {
+  return yup
+    .string()
+    .required('Please enter your password')
+    .min(5, 'Minimum 5 characters')
+    .max(160, 'Maximum 160 characters')
+    .oneOf([yup.ref(refString)], 'Please re enter your password')
+}
+
 export const schema = yup.object({
   email: yup
     .string()
@@ -78,12 +87,7 @@ export const schema = yup.object({
     .required('Please enter your password')
     .min(5, 'Minimum 5 characters')
     .max(160, 'Maximum 160 characters'),
-  confirm_password: yup
-    .string()
-    .required('Please enter your password')
-    .min(5, 'Minimum 5 characters')
-    .max(160, 'Maximum 160 characters')
-    .oneOf([yup.ref('password')], 'Please re enter your password'),
+  confirm_password: handleConfirmPasswordYup('password'),
   price_min: yup.string().test({
     name: 'price-not-allowed',
     message: 'Unvalid price is not allowed',
@@ -105,7 +109,7 @@ export const userSchema = yup.object({
   date_of_birth: yup.date().max(new Date()),
   password: schema.fields['password'],
   new_password: schema.fields['password'],
-  confirm_password: schema.fields['confirm_password']
+  confirm_password: handleConfirmPasswordYup('new_password')
 })
 
 export type UserSchema = yup.InferType<typeof userSchema>
