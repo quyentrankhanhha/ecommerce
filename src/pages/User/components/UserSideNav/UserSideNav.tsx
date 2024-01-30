@@ -121,7 +121,7 @@ export default function UserSideNav() {
               />
             </svg>
           </div>
-          My profile
+          Purchase history
         </NavLink>
       </div>
     </div>
