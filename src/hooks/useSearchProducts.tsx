@@ -2,7 +2,7 @@ import useQueryConfig, { QueryConfig } from './useQueryConfig'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { createSearchParams, useNavigate } from 'react-router-dom'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { Schema, schema } from 'src/utils/rules'
 import path from 'src/constants/path'
 
