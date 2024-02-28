@@ -298,7 +298,7 @@ export default function Cart() {
                   onClick={handleBuyPurchases}
                   disabled={buyProductsMutation.isLoading}
                 >
-                {t('cart:buy')}
+                  {t('cart:buy')}
                 </Button>
               </div>
             </div>
