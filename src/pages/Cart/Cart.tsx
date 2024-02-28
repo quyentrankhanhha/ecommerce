@@ -12,8 +12,10 @@ import { produce } from 'immer'
 import keyBy from 'lodash/keyBy'
 import { toast } from 'react-toastify'
 import { AppContext } from 'src/contexts/app.context'
+import { useTranslation } from 'react-i18next'
 
 export default function Cart() {
+  const { t } = useTranslation(['cart'])
   const { extendedPurchase, setExtendedPurchase } = useContext(AppContext)
   const { data: purchaseInCartData, refetch } = useQuery({
     queryKey: ['purchase', { status: purchaseStatus.inCart }],
@@ -156,15 +158,15 @@ export default function Cart() {
                           onChange={handleCheckAll}
                         />
                       </div>
-                      <div className='flex-grow text-black'>Product</div>
+                      <div className='flex-grow text-black'>{t('cart:product')}</div>
                     </div>
                   </div>
                   <div className='col-span-6'>
                     <div className='grid grid-cols-5 text-center'>
-                      <div className='col-span-2'>Price</div>
-                      <div className='col-span-1'>Quantity</div>
-                      <div className='col-span-1'>Total price</div>
-                      <div className='col-span-1'>Action</div>
+                      <div className='col-span-2'>{t('cart:price')}</div>
+                      <div className='col-span-1'>{t('cart:quantity')}</div>
+                      <div className='col-span-1'>{t('cart:total_price')}</div>
+                      <div className='col-span-1'>{t('cart:action')}</div>
                     </div>
                   </div>
                 </div>
@@ -251,7 +253,7 @@ export default function Cart() {
                                 className='bg-none text-black transition-colors hover:text-orange-700'
                                 onClick={handleDelete(index)}
                               >
-                                Delete
+                                {t('cart:delete')}
                               </button>
                             </div>
                           </div>
@@ -273,10 +275,10 @@ export default function Cart() {
                   />
                 </div>
                 <button className='bb-none mx-3 border-none' onClick={handleCheckAll}>
-                  Choose all ({extendedPurchase.length})
+                  {t('cart:choose_all')} ({extendedPurchase.length})
                 </button>
                 <button className='bb-none mx-3 border-none' onClick={handleDeleteMultiple}>
-                  Delete
+                  {t('cart:delete')}
                 </button>
               </div>
 
@@ -296,20 +298,20 @@ export default function Cart() {
                   onClick={handleBuyPurchases}
                   disabled={buyProductsMutation.isLoading}
                 >
-                  Buy
+                {t('cart:buy')}
                 </Button>
               </div>
             </div>
           </>
         ) : (
           <div className='text-center'>
-            <div className='mt-5 font-bold text-gray-600'>Your Cart is empty</div>
+            <div className='mt-5 font-bold text-gray-600'>{t('cart:empty_cart')}</div>
             <div className='mt-5'>
               <Link
                 to={path.home}
                 className='bg-orange-700 px-8 py-2 uppercase text-white transition-all hover:bg-orange-700/80'
               >
-                Buy Now
+                {t('cart:buy_now')}
               </Link>
             </div>
           </div>

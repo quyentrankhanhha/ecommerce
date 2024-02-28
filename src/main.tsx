@@ -6,11 +6,12 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { AppProvider } from './contexts/app.context'
 import './index.css'
+import 'src/i18n/i18n'
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false,
       retry: 0
     }
   }

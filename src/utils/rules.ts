@@ -102,7 +102,7 @@ export const schema = yup.object({
 })
 
 export const userSchema = yup.object({
-  name: yup.string().max(160, 'Maximum 160 characters'),
+  name: yup.string().max(80, 'Maximum 80 characters'),
   phone: yup.string().max(20, 'Maximum 20 characters'),
   address: yup.string().max(160, 'Maximum 160 characters'),
   avatar: yup.string().max(160, 'Maximum 1000 characters'),

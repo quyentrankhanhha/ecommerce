@@ -1,0 +1,12 @@
+{
+  "product": "Sản phẩm",
+  "price": "Giá tiền",
+  "quantity": "Số lượng",
+  "total_price": "Tổng giá tiền",
+  "action": "Hành động",
+  "delete": "Xoá",
+  "choose_all": "Chọn hết",
+  "buy": "Mua",
+  "empty_cart": "Giỏ hàng đang trống",
+  "buy_now": "Mua ngay"
+}

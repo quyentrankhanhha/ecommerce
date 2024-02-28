@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import omit from 'lodash/omit'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 import authApi from 'src/apis/auth.api'
 import Button from 'src/components/Button'
@@ -17,6 +18,7 @@ type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
 const registerSchema = schema.pick(['email', 'password', 'confirm_password'])
 
 export default function Register() {
+  const { t } = useTranslation(['login'])
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
 
@@ -67,11 +69,11 @@ export default function Register() {
         <div className='grid grid-cols-1 py-12 lg:grid-cols-3 lg:py-32 lg:pr-10'>
           <div className='lg:col-span2 lg:col-start-4'>
             <form className='rounded bg-white p-10 shadow-sm' onSubmit={onSubmit} noValidate>
-              <div className='text-2xl'>Register</div>
+              <div className='text-2xl'>{t('login:register')}</div>
               <Input
                 className='mt-8'
                 type='email'
-                placeholder='Email'
+                placeholder={t('login:email')}
                 register={register}
                 name='email'
                 errorMessage={errors.email?.message}
@@ -79,7 +81,7 @@ export default function Register() {
               <Input
                 className='mt-2'
                 type='password'
-                placeholder='Password'
+                placeholder={t('login:password')}
                 register={register}
                 autoComplete='on'
                 name='password'
@@ -88,7 +90,7 @@ export default function Register() {
               <Input
                 className='mt-2'
                 type='password'
-                placeholder='Confirm Password'
+                placeholder={t('login:confirm_password')}
                 register={register}
                 name='confirm_password'
                 errorMessage={errors.confirm_password?.message}
@@ -100,14 +102,12 @@ export default function Register() {
                   isLoading={registerAccountMutation.isLoading}
                   disabled={registerAccountMutation.isLoading}
                 >
-                  Register
+                  {t('login:register')}
                 </Button>
               </div>
               <div className='mt-8 flex items-center justify-center'>
-                <span className='text-slate-400'>Already have an account? </span>
-                <Link to={path.login} className='ml-1 text-red-400'>
-                  Sign in here
-                </Link>
+                <span className='text-slate-400'> {t('login:already_have_account')} </span>
+                <Link to={path.login} className='ml-1 text-red-400'></Link>
               </div>
             </form>
           </div>

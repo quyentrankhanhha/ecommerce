@@ -1,0 +1,12 @@
+{
+  "product": "Product",
+  "price": "Price",
+  "quantity": "Quantity",
+  "total_price": "Total price",
+  "action": "Action",
+  "delete": "Delete",
+  "choose_all": "Choose all",
+  "buy": "Buy",
+  "empty_cart": "Empty Cart",
+  "buy_now": "Buy now"
+}

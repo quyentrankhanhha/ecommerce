@@ -1,15 +1,17 @@
 import React, { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import config from 'src/constants/config'
 interface Props {
   onChange?: (file?: File) => void
 }
 export default function InputFile({ onChange }: Props) {
+  const { t } = useTranslation(['common'])
   const fileInputRef = useRef<HTMLInputElement>(null)
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileFromLocal = event.target.files?.[0]
     if (fileFromLocal && (fileFromLocal?.size >= config.maxAvatarUploadSize || fileFromLocal.type.includes('image'))) {
-      toast.error('Unable to process this image. Please try another one.')
+      toast.error(t('common:error_image'))
     } else onChange && onChange(fileFromLocal)
   }
 
@@ -34,7 +36,7 @@ export default function InputFile({ onChange }: Props) {
         type='button'
         onClick={handleUpload}
       >
-        Choose picture
+        {t('common:choose_image')}
       </button>
     </>
   )
