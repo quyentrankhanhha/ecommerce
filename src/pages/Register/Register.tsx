@@ -107,7 +107,9 @@ export default function Register() {
               </div>
               <div className='mt-8 flex items-center justify-center'>
                 <span className='text-slate-400'> {t('login:already_have_account')} </span>
-                <Link to={path.login} className='ml-1 text-red-400'></Link>
+                <Link to={path.login} className='ml-1 text-red-400'>
+                  {t('login:login_here')}
+                </Link>
               </div>
             </form>
           </div>

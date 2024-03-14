@@ -17,9 +17,9 @@ export default function Input({
   name,
   rules,
   errorMessage,
-  classNameInput = 'rounded-sm border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm',
+  classNameInput = 'rounded-sm border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm w-full',
   classNameError = 'min-h-[1.25rem]text-sm mt-1 text-red-600',
-  classNameEye = 'absolute top-2 right-2 h-5 w-5 cursor-pointer',
+  classNameEye = 'absolute top-3 right-2 h-5 w-5 cursor-pointer',
   ...rest
 }: Props) {
   const [visibleEye, setVisibleEye] = useState(false)
@@ -35,7 +35,7 @@ export default function Input({
     setVisibleEye((prev) => !prev)
   }
   return (
-    <div className={className}>
+    <div className={'relative ' + className}>
       <input className={classNameInput} {...registerResult} {...rest} type={handleType()} />
       {rest.type === 'password' && visibleEye && (
         <svg
