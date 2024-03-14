@@ -1,7 +1,6 @@
-import axios, { AxiosError, type AxiosInstance } from 'axios'
+import axios, { AxiosError, InternalAxiosRequestConfig, type AxiosInstance } from 'axios'
 import { toast } from 'react-toastify'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
-import path from 'src/constants/path'
 import { AuthResponse, RefreshTokenReponse } from 'src/types/auth.type'
 import {
   clearLS,
@@ -12,7 +11,7 @@ import {
   setRefreshTokenToLS
 } from './auth'
 import config from 'src/constants/config'
-import { URL_LOGIN, URL_REFRESH_TOKEN, URL_REGISTER } from 'src/apis/auth.api'
+import { URL_LOGIN, URL_LOGOUT, URL_REFRESH_TOKEN, URL_REGISTER } from 'src/apis/auth.api'
 import { isAxiosExpiredTokenError, isAxiosUnauthorizedError } from './utils'
 import { ErrorResponse } from 'src/types/ultils.type'
 
@@ -57,7 +56,7 @@ class Http {
           setAccessTokenToLS(this.accessToken)
           setRefreshTokenToLS(this.refreshToken)
           setProfileToLS(data.data.user)
-        } else if (url === path.logout) {
+        } else if (url === URL_LOGOUT) {
           this.accessToken = ''
           this.refreshToken = ''
           clearLS()
@@ -76,7 +75,7 @@ class Http {
         }
         // if error 401 (wrong token, not accessible token, expired token)
         if (isAxiosUnauthorizedError<ErrorResponse<{ name: string; message: string }>>(error)) {
-          const config = error.response?.config || {}
+          const config = error.response?.config || ({ headers: {} } as InternalAxiosRequestConfig)
           const { url } = config
           // if token is expired and request is not refresh token request, we start to call refresh token
           if (isAxiosExpiredTokenError(error) && url !== URL_REFRESH_TOKEN) {
