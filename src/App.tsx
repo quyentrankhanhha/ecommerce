@@ -3,11 +3,22 @@ import useRouteElements from './useRouteElements'
 import 'react-toastify/dist/ReactToastify.min.css'
 import { useContext, useEffect } from 'react'
 import { LocalStorageEventTarget } from './utils/auth'
-import { AppContext } from './contexts/app.context'
+import { AppContext, AppProvider } from './contexts/app.context'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { HelmetProvider } from 'react-helmet-async'
 
 function App() {
   const routeElements = useRouteElements()
   const { reset } = useContext(AppContext)
+
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        retry: 0
+      }
+    }
+  })
 
   useEffect(() => {
     LocalStorageEventTarget.addEventListener('clearLS', reset)
@@ -16,10 +27,14 @@ function App() {
     }
   }, [reset])
   return (
-    <div>
-      {routeElements}
-      <ToastContainer />
-    </div>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <AppProvider>
+          {routeElements}
+          <ToastContainer />
+        </AppProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   )
 }
 

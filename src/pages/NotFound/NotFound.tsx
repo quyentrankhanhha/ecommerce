@@ -1,10 +1,15 @@
+import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 export default function NotFound() {
   const { t } = useTranslation(['common'])
   return (
-    <section className='bg-white '>
+    <section className='bg-white'>
+      <Helmet>
+        <title>Not Found</title>
+        <meta name='description' content='This is not found page of learning project' />
+      </Helmet>
       <div className='container mx-auto flex min-h-screen items-center px-6 py-12'>
         <div>
           <p className='text-sm font-medium text-orange-700'>{t('common:404_error')}</p>

@@ -13,6 +13,7 @@ import keyBy from 'lodash/keyBy'
 import { toast } from 'react-toastify'
 import { AppContext } from 'src/contexts/app.context'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 
 export default function Cart() {
   const { t } = useTranslation(['cart'])
@@ -142,6 +143,10 @@ export default function Cart() {
 
   return (
     <div className='bg-neutral-100 py-16'>
+      <Helmet>
+        <title>Cart</title>
+        <meta name='description' content='This is cart page of learning project' />
+      </Helmet>
       <div className='container'>
         {extendedPurchase.length > 0 ? (
           <>

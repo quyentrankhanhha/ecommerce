@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
+import { Helmet } from 'react-helmet-async'
 import { Link, createSearchParams } from 'react-router-dom'
 import purchaseApi from 'src/apis/purchase.api'
 import path from 'src/constants/path'
@@ -24,6 +25,10 @@ export default function HistoryPurchase() {
   const purchasesInCart = purchasesInCartData?.data.data
   return (
     <div className='overflow-x-auto'>
+      <Helmet>
+        <title>History Purchase</title>
+        <meta name='description' content='This is history purchase page of learning project' />
+      </Helmet>
       <div className='min-w-[700px]'>
         <div className='sticky top-0 flex rounded-sm shadow-sm'>
           {purchaseTabs.map((tab) => (

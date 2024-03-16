@@ -13,6 +13,7 @@ import { AppContext } from 'src/contexts/app.context'
 import { getAvatarUrl, isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/ultils.type'
 import InputFile from 'src/components/InputFile'
+import { Helmet } from 'react-helmet-async'
 
 function Info() {
   const {
@@ -22,8 +23,12 @@ function Info() {
   } = useFormContext<FormData>()
   return (
     <>
+      <Helmet>
+        <title>My Profile</title>
+        <meta name='description' content='This is profile page of learning project' />
+      </Helmet>
       <div className='mt-6 flex flex-col flex-wrap sm:flex-row'>
-        <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Name</div>
+        <div className='sm:w-[20%] truncate pt-3 capitalize sm:text-right'>Name</div>
         <div className='sm:w-[80%] sm:pl-5'>
           <Input
             classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
@@ -35,7 +40,7 @@ function Info() {
         </div>
       </div>
       <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-        <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Phone number</div>
+        <div className='sm:w-[20%] truncate pt-3 capitalize sm:text-right'>Phone number</div>
         <div className='sm:w-[80%] sm:pl-5'>
           <Controller
             control={control}
@@ -151,14 +156,14 @@ export default function Profile() {
         <form className='mt-8 flex flex-col-reverse md:flex-row md:items-start' onSubmit={onSubmit}>
           <div className='mt-6 flex-grow md:mt-0 md:pr-12'>
             <div className='flex flex-col flex-wrap sm:flex-row'>
-              <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
+              <div className='sm:w-[20%] truncate pt-3 capitalize sm:text-right'>Email</div>
               <div className='sm:w-[80%] sm:pl-5'>
                 <div className='pt-3 text-gray-700'>{profile?.email}</div>
               </div>
             </div>
             <Info />
             <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-              <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Address</div>
+              <div className='sm:w-[20%] truncate pt-3 capitalize sm:text-right'>Address</div>
               <div className='sm:w-[80%] sm:pl-5'>
                 <Input
                   classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
@@ -181,7 +186,7 @@ export default function Profile() {
               )}
             />
             <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-              <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'></div>
+              <div className='sm:w-[20%] truncate pt-3 capitalize sm:text-right'></div>
               <div className='sm:w-[80%] sm:pl-5'>
                 <Button
                   className='flex h-9 items-center bg-orange-700 px-5 text-center text-sm text-white hover:bg-orange-700/80'
