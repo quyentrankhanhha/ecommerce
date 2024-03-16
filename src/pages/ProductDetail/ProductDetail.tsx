@@ -129,14 +129,14 @@ export default function ProductDetail() {
           <div className='grid grid-cols-12 gap-9'>
             <div className='col-span-5'>
               <div
-                className='pt-[100%] relative w-full cursor-zoom-in overflow-hidden shadow'
+                className='relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow'
                 onMouseMove={handleZoom}
                 onMouseLeave={handleRemoveZoom}
               >
                 <img
                   src={activeImg}
                   alt={product.name}
-                  className='pointer-events-none absolute top-0 left-0 h-full w-full bg-white object-cover'
+                  className='pointer-events-none absolute left-0 top-0 h-full w-full bg-white object-cover'
                   ref={imgRef}
                 />
               </div>
@@ -159,11 +159,11 @@ export default function ProductDetail() {
                 {currentImage.map((img) => {
                   const isActive = img === activeImg
                   return (
-                    <div className='pt-[100%] relative w-full' key={img} onMouseEnter={() => chooseActive(img)}>
+                    <div className='relative w-full pt-[100%]' key={img} onMouseEnter={() => chooseActive(img)}>
                       <img
                         src={img}
                         alt={product.name}
-                        className='absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover'
+                        className='absolute left-0 top-0 h-full w-full cursor-pointer bg-white object-cover'
                       />
                       {isActive && <div className='absolute inset-0 border-2 border-orange-700'></div>}
                     </div>
@@ -197,7 +197,7 @@ export default function ProductDetail() {
                     inactiveClassName='fill-gray text-gray-300 h-4 w-4'
                   />
                 </div>
-                <div className='w-[1px] mx-4 h-4 bg-gray-300'></div>
+                <div className='mx-4 h-4 w-[1px] bg-gray-300'></div>
                 <div>
                   <span>{formatNumberToSocialStyle(product.sold)}+</span>
                   <span className='ml-1 text-gray-500'> {t('product:bought')}</span>
@@ -206,7 +206,7 @@ export default function ProductDetail() {
               <div className='mt-8 flex items-center bg-gray-50 px-5 py-4'>
                 <div className='text-gray-500 line-through'>{formatCurrency(product.price_before_discount)}</div>
                 <div className='ml-3 text-3xl font-medium text-orange-700'>{formatCurrency(product.price)}</div>
-                <div className='py-[2px] ml-4 rounded-sm bg-orange-700 px-1 text-xs font-semibold uppercase text-white'>
+                <div className='ml-4 rounded-sm bg-orange-700 px-1 py-[2px] text-xs font-semibold uppercase text-white'>
                   - {discountPercent(product.price_before_discount, product.price)}
                 </div>
               </div>
@@ -245,7 +245,7 @@ export default function ProductDetail() {
                   {t('product:add_to_cart')}
                 </button>
                 <button
-                  className='min-w-[5rem] ml-4 flex h-12 items-center justify-center rounded-sm bg-orange-700 px-5 capitalize text-white shadow-sm outline-none hover:bg-orange-700/90'
+                  className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange-700 px-5 capitalize text-white shadow-sm outline-none hover:bg-orange-700/90'
                   onClick={buyNow}
                 >
                   {t('product:buy_now')}

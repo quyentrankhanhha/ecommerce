@@ -6,6 +6,7 @@ import { LocalStorageEventTarget } from './utils/auth'
 import { AppContext, AppProvider } from './contexts/app.context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { HelmetProvider } from 'react-helmet-async'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 function App() {
   const routeElements = useRouteElements()
@@ -33,6 +34,7 @@ function App() {
           {routeElements}
           <ToastContainer />
         </AppProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </HelmetProvider>
   )

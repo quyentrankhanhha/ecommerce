@@ -152,7 +152,7 @@ export default function Cart() {
           <>
             <div className='overflow-auto'>
               <div className='min-w-[1000px]'>
-                <div className='grid grid-cols-12 rounded-sm bg-white py-5 px-9 text-sm capitalize text-gray-500 shadow'>
+                <div className='grid grid-cols-12 rounded-sm bg-white px-9 py-5 text-sm capitalize text-gray-500 shadow'>
                   <div className='col-span-6'>
                     <div className='flex items-center'>
                       <div className='flex flex-shrink-0 items-center justify-center pr-3'>
@@ -180,7 +180,7 @@ export default function Cart() {
                     {extendedPurchase.map((purchase, index) => (
                       <div
                         key={purchase._id}
-                        className='mb-5 grid grid-cols-12 rounded-sm border border-gray-200 bg-white py-5 px-4 text-center text-sm text-gray-500 first:mt-0'
+                        className='mb-5 grid grid-cols-12 rounded-sm border border-gray-200 bg-white px-4 py-5 text-center text-sm text-gray-500 first:mt-0'
                       >
                         <div className='col-span-6'>
                           <div className='flex'>
@@ -203,7 +203,7 @@ export default function Cart() {
                                 >
                                   <img alt={purchase.product.name} src={purchase.product.image} />
                                 </Link>
-                                <div className='flex-grow px-2 pt-1 pb-2'>
+                                <div className='flex-grow px-2 pb-2 pt-1'>
                                   <Link
                                     to={`${path.home}${generateNameId({
                                       name: purchase.product.name,
@@ -269,7 +269,7 @@ export default function Cart() {
                 )}
               </div>
             </div>
-            <div className='sticky bottom-0 z-10 mt-10 flex flex-col rounded-sm border border-gray-100 bg-white py-5 px-9 shadow sm:flex-row sm:items-center'>
+            <div className='sticky bottom-0 z-10 mt-10 flex flex-col rounded-sm border border-gray-100 bg-white px-9 py-5 shadow sm:flex-row sm:items-center'>
               <div className='flex items-center'>
                 <div className='flex flex-shrink-0 items-center justify-center pr-3'>
                   <input
@@ -287,7 +287,7 @@ export default function Cart() {
                 </button>
               </div>
 
-              <div className='ml-auto mt-5 flex flex-col items-center sm:mt-0 sm:ml-auto sm:flex-row'>
+              <div className='ml-auto mt-5 flex flex-col items-center sm:ml-auto sm:mt-0 sm:flex-row'>
                 <div>
                   <div className='flex items-center sm:justify-end'>
                     <div>Subtotal {checkedPurchasesCount} product(s)</div>
@@ -299,7 +299,7 @@ export default function Cart() {
                   </div>
                 </div>
                 <Button
-                  className='mt-5 flex h-10 w-52 items-center justify-center bg-orange-700 text-sm uppercase text-white hover:bg-orange-800 sm:mt-0 sm:ml-4'
+                  className='mt-5 flex h-10 w-52 items-center justify-center bg-orange-700 text-sm uppercase text-white hover:bg-orange-800 sm:ml-4 sm:mt-0'
                   onClick={handleBuyPurchases}
                   disabled={buyProductsMutation.isLoading}
                 >

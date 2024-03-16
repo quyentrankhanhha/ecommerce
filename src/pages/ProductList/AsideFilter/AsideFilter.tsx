@@ -109,7 +109,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
                     viewBox='0 0 24 24'
                     strokeWidth={1.5}
                     stroke='currentColor'
-                    className='absolute top-1 left-[-10px] h-4 w-4'
+                    className='absolute left-[-10px] top-1 h-4 w-4'
                   >
                     <path
                       strokeLinecap='round'

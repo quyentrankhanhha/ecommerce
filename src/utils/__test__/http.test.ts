@@ -31,7 +31,7 @@ describe('http axios', () => {
     setAccessTokenToLS(access_token_10s)
     setRefreshTokenToLS(refresh_token_1000days)
     const res = await http.get('me')
-    
+
     expect(res.status).toBe(HttpStatusCode.Ok)
   })
 })

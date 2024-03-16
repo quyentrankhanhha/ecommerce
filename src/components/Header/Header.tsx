@@ -54,12 +54,12 @@ export default function Header() {
             className='flex cursor-pointer items-center py-1 hover:text-orange-700/70'
             renderPopover={
               <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
-                <div className='flex flex-col py-2 px-3'>
-                  <button className='py-2 px-3 text-left hover:text-orange-700/70' onClick={() => changeLanguage('en')}>
+                <div className='flex flex-col px-3 py-2'>
+                  <button className='px-3 py-2 text-left hover:text-orange-700/70' onClick={() => changeLanguage('en')}>
                     English
                   </button>
                   <button
-                    className='mt-2 py-2 px-3 text-left hover:text-orange-700/70'
+                    className='mt-2 px-3 py-2 text-left hover:text-orange-700/70'
                     onClick={() => changeLanguage('vi')}
                   >
                     Tiếng Việt
@@ -101,16 +101,16 @@ export default function Header() {
                 <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
                   <Link
                     to={path.profile}
-                    className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-orange-700/70'
+                    className='block w-full bg-white px-4 py-3 hover:bg-slate-100 hover:text-orange-700/70'
                   >
                     {t('common:my_profile')}
                   </Link>
-                  <Link to='/' className='block w-full bg-white py-3 px-4 hover:bg-slate-100 hover:text-orange-700/70'>
+                  <Link to='/' className='block w-full bg-white px-4 py-3 hover:bg-slate-100 hover:text-orange-700/70'>
                     {t('common:my_order')}
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className='block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-orange-700/70'
+                    className='block w-full bg-white px-4 py-3 text-left hover:bg-slate-100 hover:text-orange-700/70'
                   >
                     {t('common:logout')}
                   </button>
@@ -155,7 +155,7 @@ export default function Header() {
                 placeholder='Search...'
                 {...register('name')}
               />
-              <button className='bg-orange flex-shrink rounded-sm py-2 px-6 hover:opacity-90'>
+              <button className='bg-orange flex-shrink rounded-sm px-6 py-2 hover:opacity-90'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -238,7 +238,7 @@ export default function Header() {
                   />
                 </svg>
                 {purchaseInCart && (
-                  <span className='absolute top-[-10px] left-[20px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange-700 '>
+                  <span className='absolute left-[20px] top-[-10px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange-700 '>
                     {purchaseInCart?.length}
                   </span>
                 )}

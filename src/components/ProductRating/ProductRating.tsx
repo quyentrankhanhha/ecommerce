@@ -22,7 +22,7 @@ export default function ProductRating({
         .fill(0)
         .map((_, index) => (
           <div className='relative' key={index}>
-            <div className='absolute top-0 left-0 h-full overflow-hidden' style={{ width: handleWidth(index + 1) }}>
+            <div className='absolute left-0 top-0 h-full overflow-hidden' style={{ width: handleWidth(index + 1) }}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'

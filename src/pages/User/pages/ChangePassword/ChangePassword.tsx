@@ -62,10 +62,10 @@ export default function ChangePassword() {
       <div className='border-b border-b-gray-200 py-6'>
         <h1 className='text-lg font-medium capitalize text-gray-900'>Change Password</h1>
       </div>
-      <form className='mt-8 mr-auto max-w-2xl' onSubmit={onSubmit}>
+      <form className='mr-auto mt-8 max-w-2xl' onSubmit={onSubmit}>
         <div className='mt-6 flex-grow md:mt-0 md:pr-12'>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='sm:w-[20%] truncate pt-3 capitalize sm:text-right'>Current Password</div>
+            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Current Password</div>
             <div className='sm:w-[80%] sm:pl-5'>
               <Input
                 classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
@@ -79,7 +79,7 @@ export default function ChangePassword() {
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='sm:w-[20%] truncate pt-3 capitalize sm:text-right'>New Password</div>
+            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>New Password</div>
             <div className='sm:w-[80%] sm:pl-5'>
               <Input
                 classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
@@ -93,7 +93,7 @@ export default function ChangePassword() {
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='sm:w-[20%] truncate pt-3 capitalize sm:text-right'>Confirm Password</div>
+            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Confirm Password</div>
             <div className='sm:w-[80%] sm:pl-5'>
               <Input
                 classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
@@ -107,7 +107,7 @@ export default function ChangePassword() {
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='sm:w-[20%] truncate pt-3 capitalize sm:text-right'></div>
+            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'></div>
             <div className='sm:w-[80%] sm:pl-5'>
               <Button
                 className='flex h-9 items-center bg-orange-700 px-5 text-center text-sm text-white hover:bg-orange-700/80'
