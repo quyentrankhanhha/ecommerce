@@ -1,17 +1,13 @@
 import { describe, expect, test } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { BrowserRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 import App from './App'
+import { renderWithRouter } from './utils/testUtils'
+import path from './constants/path'
 
 describe('App', () => {
-  test('App render', async () => {
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    )
-    const user = userEvent.setup()
+  test('should render App', async () => {
+    const { user } = renderWithRouter()
 
     // await waitFor(() => {
     //   expect(document.querySelector('title')?.textContent).toBe('Ecommerce project')
@@ -23,5 +19,25 @@ describe('App', () => {
       expect(document.querySelector('title')?.textContent).toBe('Login')
     })
     //screen.debug(document.body.parentElement as HTMLElement, 99999999)
+  })
+
+  test('should render Not Found Page', async () => {
+    const badRoute = '/bad/route'
+    render(
+      <MemoryRouter initialEntries={[badRoute]}>
+        <App />
+      </MemoryRouter>
+    )
+    await waitFor(() => {
+      expect(document.querySelector('title')?.textContent).toBe('Not Found')
+    })
+    //screen.debug(document.body.parentElement as HTMLElement, 99999999)
+  })
+
+  test('should render Register Page', async () => {
+    renderWithRouter({ route: path.register })
+    await waitFor(() => {
+      expect(screen.getByText(/Already have an account?/i)).toBeInTheDocument()
+    })
   })
 })

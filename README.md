@@ -11,7 +11,7 @@
 - Router: React Router
 - Build tool: Vite
 - Support multipal languages with react.i18next
-- Support SEO with React Helmet
+- Support SEO with React Helmet async
 - Story book
 - Unit Test
 - Heroicons (https://heroicons.com/)
