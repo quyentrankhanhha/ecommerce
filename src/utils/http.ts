@@ -19,7 +19,7 @@ export class Http {
   instance: AxiosInstance
   private accessToken: string
   private refreshToken: string
-  refreshTokenRequest: Promise<string> | null
+  private refreshTokenRequest: Promise<string> | null
   constructor() {
     this.accessToken = getAccessTokenFromLS()
     this.refreshToken = getRefreshTokenFromLS()
@@ -35,7 +35,7 @@ export class Http {
     })
     this.instance.interceptors.request.use(
       (config) => {
-        if (this.accessToken) {
+        if (this.accessToken && config.headers) {
           config.headers.authorization = this.accessToken
           return config
         }
@@ -50,7 +50,7 @@ export class Http {
       (response) => {
         const { url } = response.config
         if (url === URL_LOGIN || url === URL_REGISTER) {
-          const data = response.data as AuthResponse
+          const data = response.data.data as AuthResponse
           this.accessToken = data.data.access_token
           this.refreshToken = data.data.refresh_token
           setAccessTokenToLS(this.accessToken)

@@ -1,4 +1,3 @@
-import path from 'src/constants/path'
 import { AuthResponse } from 'src/types/auth.type'
 import http from 'src/utils/http'
 
