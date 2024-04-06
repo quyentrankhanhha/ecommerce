@@ -6,7 +6,7 @@ import { expect } from 'vitest'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppProvider, getInitialAppContext } from 'src/contexts/app.context'
 
-const delay = (time: number) => {
+export const delay = (time: number) => {
   new Promise((resolve) => {
     setTimeout(() => {
       resolve(true)
