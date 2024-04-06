@@ -1,7 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
-import App from './App'
+import { screen, waitFor } from '@testing-library/react'
 import { renderWithRouter } from './utils/testUtils'
 import path from './constants/path'
 
@@ -23,11 +21,7 @@ describe('App', () => {
 
   test('should render Not Found Page', async () => {
     const badRoute = '/bad/route'
-    render(
-      <MemoryRouter initialEntries={[badRoute]}>
-        <App />
-      </MemoryRouter>
-    )
+    renderWithRouter({ route: badRoute })
     await waitFor(() => {
       expect(document.querySelector('title')?.textContent).toBe('Not Found')
     })

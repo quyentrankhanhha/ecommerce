@@ -3,7 +3,7 @@ import useRouteElements from './useRouteElements'
 import 'react-toastify/dist/ReactToastify.min.css'
 import { useContext, useEffect } from 'react'
 import { LocalStorageEventTarget } from './utils/auth'
-import { AppContext, AppProvider } from './contexts/app.context'
+import { AppContext } from './contexts/app.context'
 import { HelmetProvider } from 'react-helmet-async'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
@@ -19,10 +19,8 @@ function App() {
   }, [reset])
   return (
     <HelmetProvider>
-      <AppProvider>
-        {routeElements}
-        <ToastContainer />
-      </AppProvider>
+      {routeElements}
+      <ToastContainer />
       <ReactQueryDevtools initialIsOpen={false} />
     </HelmetProvider>
   )
